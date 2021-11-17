@@ -3,10 +3,38 @@ package com.josephagu.minipaint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Path
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
 
+// at the top file level, define a constant for the stroke width
+private const val STROKE_WIDTH = 12f // has to be float
+
 class MyCanvasView (context: Context) : View(context) {
+
+    //At the class level of MyCanvasView, define a variable drawColor for holding the color to draw
+    // with and initialize it with the colorPaint resource you defined earlier.
+    private val drawColor = ResourcesCompat.getColor(resources, R.color.colorPaint, null)
+
+    //At the class level, below, add a variable paint for a Paint object and initialize it as follows.
+    // Set up the paint with which to draw.
+    private val paint = Paint().apply {
+        color = drawColor
+        // Smooths out edges of what is drawn without affecting shape.
+        isAntiAlias = true
+        // Dithering affects how colors with higher-precision than the device are down-sampled.
+        isDither = true
+        style = Paint.Style.STROKE // default: FILL
+        strokeJoin = Paint.Join.ROUND // default: MITER
+        strokeCap = Paint.Cap.ROUND // default: BUTT
+        strokeWidth = STROKE_WIDTH // default: Hairline-width (really thin)
+    }
+
+/*  add a variable path and initialize it with a Path object to store the path that is being drawn
+    when following the user's touch on the screen. Import android.graphics.Path for the Path.
+*/
+    private var path = Path()
 
     /*At the class level, we define member variables for a canvas and a bitmap.
     These are the bitmap and canvas for caching what has been drawn before.*/
