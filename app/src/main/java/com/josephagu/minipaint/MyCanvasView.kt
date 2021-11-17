@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
+import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
 
@@ -79,5 +80,31 @@ class MyCanvasView (context: Context) : View(context) {
     }
     //Note: The 2D coordinate system used for drawing on a Canvas is in pixels, and the origin (0,0) is at the top left corner of the Canvas.
 
+  //  override the onTouchEvent() method to cache the x and y coordinates of the passed in event.
+  //  Then use a when expression to handle motion events for touching down on the screen, moving on
+  //  the screen, and releasing touch on the screen. These are the events of interest for drawing a
+  //  line on the screen. For each event type, call a utility method, as shown in the code below.
+  //  See the MotionEvent class documentation for a full list of touch events.
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        motionTouchEventX = event.x
+        motionTouchEventY = event.y
 
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> touchStart()
+            MotionEvent.ACTION_MOVE -> touchMove()
+            MotionEvent.ACTION_UP -> touchUp()
+        }
+        return true
+    }
+
+/*  At the class level, add the missing motionTouchEventX and motionTouchEventY variables for
+    caching the x and y coordinates of the current touch event (the MotionEvent coordinates).
+    Initialize them to 0f.*/
+    private var motionTouchEventX = 0f
+    private var motionTouchEventY = 0f
+
+    //Create stubs for the three functions touchStart(), touchMove(), and touchUp().
+    private fun touchStart() {}
+    private fun touchMove() {}
+    private fun touchUp() {}
 }
